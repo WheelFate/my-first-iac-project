@@ -1,9 +1,6 @@
 name: "Terraform IaC Workflow"
 
-on:
-  push:
-    branches:
-      - main
+on:  # ✅ Only manual workflow trigger
   workflow_dispatch:
 
 env:
@@ -30,7 +27,7 @@ jobs:
       - name: Terraform Plan
         run: terraform plan
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}  # 👈 Learners must add this secret
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
