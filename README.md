@@ -1,5 +1,7 @@
 # 🌍 GitHub Infrastructure as Code with Terraform
 
+![Terraform Workflow](https://github.com/WheelFate/my-first-iac-project/actions/workflows/terraform.yml/badge.svg)
+
 Welcome, friend! 👋  
 This repo is designed to help **complete beginners** learn how to automate GitHub tasks using **Terraform + GitHub Actions**, full **Infrastructure-as-Code (IaC)** style.
 
