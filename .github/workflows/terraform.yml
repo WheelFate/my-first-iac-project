@@ -1,0 +1,53 @@
+# A friendly name for our workflow, which will appear in the Actions tab.
+name: "Terraform IaC Workflow"
+
+# This section defines WHEN the workflow should run.
+on:
+  # Run it when code is pushed to the "main" branch.
+  push:
+    branches:
+      - main
+  # Allows us to run this workflow manually from the Actions tab.
+  workflow_dispatch:
+
+# Set an environment variable that our Terraform code can use.
+# We are passing the repository's name to the 'repository_name' variable
+# that we defined in our main.tf file.
+env:
+  TF_VAR_repository_name: ${{ github.repository }}
+
+# Give the workflow the permissions it needs to interact with our repository.
+permissions:
+  contents: write # Needed to create repository labels, etc.
+  pull-requests: write # Needed to comment on Pull Requests (for a later step).
+
+jobs:
+  # We define a single job named "terraform".
+  terraform:
+    # The job will run on a fresh, free virtual machine provided by GitHub.
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the code from our repository.
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Step 2: Install the Terraform software on the virtual machine.
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      # Step 3: Initialize Terraform. This downloads the "github" provider tool.
+      # It's like checking that you have the right tools before starting a project.
+      - name: Terraform Init
+        run: terraform init
+
+      # Step 4: Generate a plan. Terraform checks what needs to be created,
+      # changed, or deleted. It creates a "plan" but doesn't change anything yet.
+      - name: Terraform Plan
+        run: terraform plan
+
+      # Step 5: Apply the changes. This step reads the plan and actually
+      # creates the label in our repository. The "-auto-approve" flag tells
+      # it to go ahead without asking for confirmation.
+      - name: Terraform Apply
+        run: terraform apply -auto-approve
