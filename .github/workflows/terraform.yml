@@ -1,18 +1,14 @@
-# A friendly name for our workflow, which will appear in the Actions tab.
 name: "Terraform IaC Workflow"
 
-# Define when the workflow should run
 on:
   push:
     branches:
       - main
   workflow_dispatch:
 
-# Environment variable passed to Terraform
 env:
   TF_VAR_repository_name: ${{ github.repository }}
 
-# Permissions needed by GitHub Actions
 permissions:
   contents: write
   pull-requests: write
@@ -34,9 +30,9 @@ jobs:
       - name: Terraform Plan
         run: terraform plan
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
