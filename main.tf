@@ -17,7 +17,7 @@ provider "github" {}
 # Part 3: Define our resource blueprint.
 # This is the "Infrastructure as Code" part. We are describing
 # a GitHub Label that we want to exist.
-resource "github_repository_label" "my_first_label" {
+resource github_repository_label "my_first_label" {
   # This variable gets the repo name automatically from GitHub Actions.
   repository = var.repository_name
 
